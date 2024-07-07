@@ -13,6 +13,8 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,7 +36,6 @@ fun ScreenAddItem(viewModel: StockViewModel) {
     val isErrorInputCode by viewModel.isErrorInputCode.collectAsState()
     val isErrorInputQuantity by viewModel.isErrorInputQuantity.collectAsState()
     val isErrorInputPlace by viewModel.isErrorInputPlace.collectAsState()
-
 
     val itemName by viewModel.addItemName.collectAsState()
     val itemVendorCode by viewModel.addItemVendorCode.collectAsState()
@@ -62,6 +63,15 @@ fun ScreenAddItem(viewModel: StockViewModel) {
                     Text(
                         text = "Добавить Элемент"
                     )
+                }
+                if (viewModel.items !== null){
+                    OutlinedButton(
+                        onClick = { viewModel.updateIsOpenDelete() }
+                    ) {
+                        Text(
+                            text = "Удалить элемент"
+                        )
+                    }
                 }
             }
 

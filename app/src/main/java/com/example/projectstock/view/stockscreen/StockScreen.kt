@@ -41,7 +41,9 @@ fun dsaw() {
 
 @Composable
 fun StockScreen(viewModel: StockViewModel = viewModel(factory = StockViewModel.factory)) {
-    val isOpen by viewModel.isOpenAdd.collectAsState()
+    val isOpenAdd by viewModel.isOpenAdd.collectAsState()
+    val isOpenDelete by viewModel.isOpenDelete.collectAsState()
+    
     val listStorageItems by viewModel.listStorageItems.collectAsState(emptyList())
     val searchStorageItem by viewModel.searchListStorageItem.collectAsState()
     val isSearch by viewModel.isSearch.collectAsState()
@@ -51,8 +53,11 @@ fun StockScreen(viewModel: StockViewModel = viewModel(factory = StockViewModel.f
             .fillMaxSize()
             .safeDrawingPadding()
     ) {
-        if (isOpen) {
+        if (isOpenAdd) {
             ScreenAddItem(viewModel)
+            if (isOpenDelete){
+                ScreenDeleteItem(viewModel)
+            }
         }
         SearchEditField(viewModel)
         Button(
