@@ -22,6 +22,7 @@ class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
             }
         }
     }
+
     private val _userInputCode = MutableStateFlow("")
     val userInputCode = _userInputCode.asStateFlow()
 
@@ -30,6 +31,8 @@ class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
     }
 
     val isOpenAdd = MutableStateFlow(false)
+    val isOpenDelete = MutableStateFlow(false)
+
     val isErrorInputName = MutableStateFlow(false)
     val isErrorInputVendorCode = MutableStateFlow(false)
     val isErrorInputCode = MutableStateFlow(false)
@@ -50,15 +53,27 @@ class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
     var isSearch = MutableStateFlow(userInputCode.value.isEmpty())
     val searchListStorageItem = MutableStateFlow(emptyList<StorageItem>())
 
-    fun search (search: String) = viewModelScope.launch {
+    fun search(search: String) = viewModelScope.launch {
         isSearch.value = userInputCode.value.isEmpty()
         searchListStorageItem.value = daoStock.searchItem(search)
+    }
+
+    fun delete() = viewModelScope.launch {
+        if (items !== null) {
+            daoStock.deleteItem(items!!)
+            resetInput()
+            updateIsOpenDelete()
+        }
     }
 
 
     fun updateIsOpenAdd() {
         resetInput()
         isOpenAdd.value = !isOpenAdd.value
+    }
+
+    fun updateIsOpenDelete() {
+        isOpenDelete.value = !isOpenDelete.value
     }
 
     fun updateVendorCode(vendorCode: String) {
@@ -77,11 +92,11 @@ class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
         addItemQuantity.value = quantity
     }
 
-    fun updatePlace(place: String){
+    fun updatePlace(place: String) {
         addItemPlace.value = place
     }
 
-    fun updateStorageItem(item: StorageItem){
+    fun updateStorageItem(item: StorageItem) {
         items = item
         updateIsOpenAdd()
         addItemName.value = item.name
@@ -97,19 +112,20 @@ class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
             name = addItemName.value,
             quantity = addItemQuantity.value.toInt(),
             vendorCode = addItemVendorCode.value,
-            code = addItemCode.value) ?: StorageItem(
+            code = addItemCode.value
+        ) ?: StorageItem(
             name = addItemName.value,
             quantity = addItemQuantity.value.toInt(),
             vendorCode = addItemVendorCode.value,
             code = addItemCode.value,
             place = addItemPlace.value
-            )
+        )
         daoStock.addItem(item)
         items = null
 
     }
 
-    fun resetInput(){
+    fun resetInput() {
         addItemName.value = ""
         addItemCode.value = ""
         addItemQuantity.value = ""
@@ -130,7 +146,7 @@ class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
             !isErrorInputCode.value &&
             !isErrorInputQuantity.value &&
             !isErrorInputPlace.value
-            ) {
+        ) {
             addItem()
             resetInput()
             updateIsOpenAdd()

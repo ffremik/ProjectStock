@@ -1,6 +1,7 @@
 package com.example.projectstock.database
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -18,4 +19,7 @@ interface DaoStock {
     suspend fun searchItem(itemSearch: String): List<StorageItem>
     //SELECT * FROM StorageItem
     //WHERE name LIKE "%" OR vendorCode LIKE "%" OR code  LIKE "%"
+
+    @Delete
+    suspend fun deleteItem (item: StorageItem)
 }
