@@ -17,8 +17,11 @@ data class StorageItem(
 )
 
 
-data class Shelf(
-    val numberShelf: Int,
-    val itemsList: List<StorageItem>
-)
+//@Entity
+//data class HistoryItem(
+//    @PrimaryKey(autoGenerate = true)
+//    val id: Int = 0,
+//    val items: StorageItem,
+//    val date: String
+//)
 

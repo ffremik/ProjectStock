@@ -48,12 +48,13 @@ class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
     val textIsAdd = MutableStateFlow(false)
 
     var items: StorageItem? = null
-
     val listStorageItems = daoStock.itemList()
+
     var isSearch = MutableStateFlow(userInputCode.value.isEmpty())
     val searchListStorageItem = MutableStateFlow(emptyList<StorageItem>())
 
     fun search(search: String) = viewModelScope.launch {
+        searchListStorageItem.value = emptyList()
         isSearch.value = userInputCode.value.isEmpty()
         searchListStorageItem.value = daoStock.searchItem(search)
     }
