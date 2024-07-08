@@ -11,10 +11,12 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.projectstock.view.stockscreen.viewmodel.StockViewModel
 import com.example.projectstock.database.StorageItem
 
@@ -35,15 +38,18 @@ import com.example.projectstock.database.StorageItem
 @Preview(showBackground = true)
 @Composable
 fun dsaw() {
-    StockScreen()
+   // StockScreen()
 }
 
 
 @Composable
-fun StockScreen(viewModel: StockViewModel = viewModel(factory = StockViewModel.factory)) {
+fun StockScreen(
+    viewModel: StockViewModel,
+    navController: NavController
+) {
     val isOpenAdd by viewModel.isOpenAdd.collectAsState()
     val isOpenDelete by viewModel.isOpenDelete.collectAsState()
-    
+
     val listStorageItems by viewModel.listStorageItems.collectAsState(emptyList())
     val searchStorageItem by viewModel.searchListStorageItem.collectAsState()
     val isSearch by viewModel.isSearch.collectAsState()
@@ -51,7 +57,6 @@ fun StockScreen(viewModel: StockViewModel = viewModel(factory = StockViewModel.f
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .safeDrawingPadding()
     ) {
         if (isOpenAdd) {
             ScreenAddItem(viewModel)
@@ -59,15 +64,24 @@ fun StockScreen(viewModel: StockViewModel = viewModel(factory = StockViewModel.f
                 ScreenDeleteItem(viewModel)
             }
         }
-        SearchEditField(viewModel)
-        Button(
+        IconButton(
+            modifier = Modifier
+                .align(Alignment.End),
             onClick = {
-                viewModel.updateIsOpenAdd()
-                viewModel.items = null
+                navController.navigate("history"){
+                    popUpTo("history"){
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                }
             }
         ) {
-            Text(text = "Добавить")
+            Icon(
+                imageVector = Icons.Default.List,
+                contentDescription = ""
+            )
         }
+        SearchEditField(viewModel)
         CardStorageItem()
         if (isSearch) {
             LazyColumn {
