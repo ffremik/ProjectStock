@@ -8,10 +8,14 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.projectstock.StockApplication
 import com.example.projectstock.database.DaoStock
+import com.example.projectstock.database.HistoryItem
 import com.example.projectstock.database.StorageItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
     companion object {
@@ -49,6 +53,7 @@ class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
 
     var items: StorageItem? = null
     val listStorageItems = daoStock.itemList()
+    val listHistoryItems = daoStock.historyList()
 
     var isSearch = MutableStateFlow(userInputCode.value.isEmpty())
     val searchListStorageItem = MutableStateFlow(emptyList<StorageItem>())
@@ -121,8 +126,21 @@ class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
             code = addItemCode.value,
             place = addItemPlace.value
         )
+        val previousQuantity = items?.quantity ?: 0
+
         daoStock.addItem(item)
         items = null
+
+        if (item.quantity - previousQuantity != 0){
+            daoStock.addHistoryItem(
+                HistoryItem(
+                    itemsName = item.name,
+                    itemsQuantity = (item.quantity.minus(previousQuantity)),
+                    itemRemainderQuantity = item.quantity,
+                    date = getCurrentDate()
+                )
+            )
+        }
 
     }
 
@@ -155,4 +173,9 @@ class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
         }
     }
 
+}
+
+fun getCurrentDate(): String{
+    val dateFormat = SimpleDateFormat("dd.MM", Locale.getDefault())
+    return dateFormat.format(Date())
 }

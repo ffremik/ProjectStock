@@ -16,24 +16,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.projectstock.database.HistoryItem
 import com.example.projectstock.database.StorageItem
 
 @Composable
 @Preview
 fun PreviewItemHistory() {
-    ItemCardHistory(
-        item = StorageItem(
-            name = "Фильтр воздушныйdas wqesa weq",
-            quantity = 23,
-            vendorCode = "ds",
-            code = "2a",
-            place = "2"
-        )
-    )
+
 }
 
 @Composable
-fun ItemCardHistory(item: StorageItem) {
+fun ItemCardHistory(historyItem: HistoryItem) {
     Card(
         modifier = Modifier
             .padding(4.dp)
@@ -52,20 +45,37 @@ fun ItemCardHistory(item: StorageItem) {
                 modifier = Modifier
                     .weight(1f)
                     .padding(end = 5.dp),
-                text = item.name,
-                fontSize = 17.sp,
+                text = historyItem.itemsName,
+                fontSize = 16.sp,
                 maxLines = 2,
                 textAlign = TextAlign.Center
             )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.weight(0.7f)
+            ) {
+                if (historyItem.itemsQuantity > 0){
+                    Text(
+                        text = "Поступило: ${historyItem.itemsQuantity}",
+                        fontSize = 16.sp
+                    )
+                } else {
+                    Text(
+                        text = "Списано: ${historyItem.itemsQuantity}",
+                        fontSize = 16.sp
+                    )
+                }
+                Text(
+                    text = "Остаток: ${historyItem.itemRemainderQuantity}",
+                    fontSize = 16.sp,
+                )
+            }
+
+
             Text(
-                modifier = Modifier
-                    .weight(0.7f),
-                text = "Списание: 2",
-                fontSize = 17.sp
-            )
-            Text(
-                text = "07.07",
-                fontSize = 17.sp
+                modifier = Modifier.padding(start = 4.dp),
+                text = historyItem.date,
+                fontSize = 16.sp
             )
 
         }

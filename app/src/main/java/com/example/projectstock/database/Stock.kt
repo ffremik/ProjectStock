@@ -17,11 +17,13 @@ data class StorageItem(
 )
 
 
-//@Entity
-//data class HistoryItem(
-//    @PrimaryKey(autoGenerate = true)
-//    val id: Int = 0,
-//    val items: StorageItem,
-//    val date: String
-//)
+@Entity
+data class HistoryItem(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val itemsName: String,
+    val itemsQuantity: Int,
+    val itemRemainderQuantity: Int,
+    val date: String
+)
 

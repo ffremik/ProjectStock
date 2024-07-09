@@ -21,12 +21,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -44,7 +47,7 @@ fun PreviewMainScreen() {
 fun MainScreen(
     viewModel: StockViewModel = androidx.lifecycle.viewmodel.compose.viewModel(factory = StockViewModel.factory)
 ) {
-
+    val navController = rememberNavController()
     Scaffold(
         floatingActionButton = {
                 IconButton(
@@ -64,20 +67,19 @@ fun MainScreen(
                 }
         }
     ) {
-        NavigationHost(viewModel, modifier = Modifier.padding(it))
+        NavigationHost(viewModel, modifier = Modifier.padding(it), navController)
     }
 }
 
 @Composable
 fun NavigationHost(
     viewModel: StockViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavController
 ) {
-    val navController = rememberNavController()
-
     NavHost(
         modifier = modifier,
-        navController = navController,
+        navController = navController as NavHostController,
         startDestination = "stock"
     ) {
         composable(
@@ -88,7 +90,7 @@ fun NavigationHost(
         composable(
             route = "history"
         ) {
-            HistoryScreen(navController)
+            HistoryScreen(navController, viewModel)
         }
     }
 }

@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
@@ -25,6 +27,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,7 +43,7 @@ import com.example.projectstock.database.StorageItem
 @Preview(showBackground = true)
 @Composable
 fun dsaw() {
-   // StockScreen()
+    // StockScreen()
 }
 
 
@@ -60,7 +65,7 @@ fun StockScreen(
     ) {
         if (isOpenAdd) {
             ScreenAddItem(viewModel)
-            if (isOpenDelete){
+            if (isOpenDelete) {
                 ScreenDeleteItem(viewModel)
             }
         }
@@ -68,8 +73,8 @@ fun StockScreen(
             modifier = Modifier
                 .align(Alignment.End),
             onClick = {
-                navController.navigate("history"){
-                    popUpTo("history"){
+                navController.navigate("history") {
+                    popUpTo("history") {
                         inclusive = true
                     }
                     launchSingleTop = true
@@ -89,10 +94,10 @@ fun StockScreen(
                     ItemStock(item = it) { viewModel.updateStorageItem(it) }
                 }
             }
-        }else{
+        } else {
             LazyColumn {
-                items(searchStorageItem){
-                    ItemStock(item = it) {viewModel.updateStorageItem(it)}
+                items(searchStorageItem) {
+                    ItemStock(item = it) { viewModel.updateStorageItem(it) }
                 }
             }
         }
@@ -190,6 +195,7 @@ fun CardStorageItem() {
                 Text(
                     modifier = Modifier.weight(0.4f),
                     text = "Кол-во\nМесто",
+                    textAlign = TextAlign.Center,
                     fontSize = 17.sp,
                 )
             }
@@ -200,12 +206,20 @@ fun CardStorageItem() {
 @Composable
 fun SearchEditField(viewModel: StockViewModel) {
     val userInputCode by viewModel.userInputCode.collectAsState()
+    val focusManager = LocalFocusManager.current
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(6.dp)
     ) {
         OutlinedTextField(
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Search,
+            ),
+            keyboardActions = KeyboardActions {
+                viewModel.search(userInputCode)
+                focusManager.clearFocus()
+            },
             modifier = Modifier
                 .fillMaxWidth(),
             value = userInputCode,
@@ -213,12 +227,13 @@ fun SearchEditField(viewModel: StockViewModel) {
                 viewModel.updateUserInputCode(it)
             },
             label = {
-                Text(text = "Введите артикл/код")
+                Text(text = "Введите артикл/код/название")
             },
             trailingIcon = {
                 Icon(
                     modifier = Modifier.clickable {
                         viewModel.search(userInputCode)
+                        focusManager.clearFocus()
                     },
                     imageVector = Icons.Default.Search,
                     contentDescription = ""
