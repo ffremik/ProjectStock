@@ -17,6 +17,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -26,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.projectstock.database.StorageItem
+import com.example.projectstock.view.stockscreen.viewmodel.StockViewModel
 
 @Composable
 @Preview
@@ -34,7 +37,8 @@ fun PreviewHistoryScreen() {
 }
 
 @Composable
-fun HistoryScreen(navController: NavController) {
+fun HistoryScreen(navController: NavController, viewModel: StockViewModel) {
+    val listHistoryItems by viewModel.listHistoryItems.collectAsState(initial = emptyList())
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -55,16 +59,8 @@ fun HistoryScreen(navController: NavController) {
         LazyColumn(
 
         ) {
-            item {
-                ItemCardHistory(
-                    item = StorageItem(
-                        name = "Фильтр воздушныйdas wqesa weq",
-                        quantity = 23,
-                        vendorCode = "ds",
-                        code = "2a",
-                        place = "2"
-                    )
-                )
+            items(listHistoryItems.reversed()) {it
+                ItemCardHistory(it)
             }
         }
     }
@@ -97,8 +93,9 @@ fun TitleCardHistoryItem() {
             Text(
                 modifier = Modifier
                     .weight(0.7f),
-                text = "Операция",
-                fontSize = 17.sp
+                text = "Операция\nОстаток",
+                fontSize = 17.sp,
+                textAlign = TextAlign.Center
             )
             Text(
                 text = "Дата",

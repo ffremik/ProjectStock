@@ -52,24 +52,48 @@ fun ScreenAddItem(viewModel: StockViewModel) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ItemTextField("Артикл",itemVendorCode, isErrorInputVendorCode) { it -> viewModel.updateVendorCode(it) }
-                ItemTextField("Код",itemCode, isErrorInputCode) { it -> viewModel.updateCode(it) }
-                ItemTextField("Имя",itemName, isErrorInputName) { it -> viewModel.updateName(it) }
-                ItemTextField("Кол-во",itemQuantity, isErrorInputQuantity) { it -> viewModel.updateQuantity(it)}
-                ItemTextField(name = "Место", input = itemPlace , isError = isErrorInputPlace) { viewModel.updatePlace(it) }
-                OutlinedButton(
-                    onClick = { viewModel.isAdd() }
-                ) {
-                    Text(
-                        text = "Добавить Элемент"
-                    )
-                }
-                if (viewModel.items !== null){
+                ItemTextField(
+                    "Артикл",
+                    itemVendorCode,
+                    isErrorInputVendorCode
+                ) { it -> viewModel.updateVendorCode(it) }
+                ItemTextField("Код", itemCode, isErrorInputCode) { it -> viewModel.updateCode(it) }
+                ItemTextField("Имя", itemName, isErrorInputName) { it -> viewModel.updateName(it) }
+                ItemTextField(
+                    "Кол-во",
+                    itemQuantity,
+                    isErrorInputQuantity
+                ) { it -> viewModel.updateQuantity(it) }
+                ItemTextField(
+                    name = "Место",
+                    input = itemPlace,
+                    isError = isErrorInputPlace
+                ) { viewModel.updatePlace(it) }
+
+                if (viewModel.items !== null) {
                     OutlinedButton(
-                        onClick = { viewModel.updateIsOpenDelete() }
+                        onClick = { viewModel.isAdd() }
+                    ) {
+                        Text(
+                            text = "Сохранить изменения"
+                        )
+                    }
+
+                    OutlinedButton(
+                        onClick = {
+                            viewModel.updateIsOpenDelete()
+                        }
                     ) {
                         Text(
                             text = "Удалить элемент"
+                        )
+                    }
+                } else {
+                    OutlinedButton(
+                        onClick = { viewModel.isAdd() }
+                    ) {
+                        Text(
+                            text = "Добавить Элемент"
                         )
                     }
                 }

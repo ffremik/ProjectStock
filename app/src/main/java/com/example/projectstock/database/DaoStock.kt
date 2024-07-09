@@ -22,4 +22,10 @@ interface DaoStock {
 
     @Delete
     suspend fun deleteItem (item: StorageItem)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addHistoryItem(historyItem: HistoryItem)
+
+    @Query("SELECT * FROM historyitem")
+    fun historyList(): Flow<List<HistoryItem>>
 }
