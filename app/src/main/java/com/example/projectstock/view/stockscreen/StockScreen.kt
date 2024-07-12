@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.projectstock.R
 import com.example.projectstock.view.stockscreen.viewmodel.StockViewModel
 import com.example.projectstock.database.StorageItem
 
@@ -112,10 +114,8 @@ fun ItemStock(
     Card(
         modifier = Modifier
             .padding(4.dp)
-            .pointerInput(Unit) {
-                detectTapGestures {
-                    onClick(item)
-                }
+            .clickable {
+                onClick(item)
             }
     ) {
         Row(
@@ -181,20 +181,20 @@ fun CardStorageItem() {
             ) {
                 Text(
                     modifier = Modifier.weight(0.4f),
-                    text = "Артикл\nКод",
+                    text = stringResource(id = R.string.vendor_code) + "\n" + stringResource(id = R.string.code),
                     fontSize = 17.sp,
                     textAlign = TextAlign.Center
                 )
                 Text(
                     modifier = Modifier
                         .weight(1.4f),
-                    text = "Название",
+                    text = stringResource(id = R.string.name_item),
                     fontSize = 17.sp,
                     textAlign = TextAlign.Center
                 )
                 Text(
                     modifier = Modifier.weight(0.4f),
-                    text = "Кол-во\nМесто",
+                    text = stringResource(id = R.string.quantity) + "\n" + stringResource(id = R.string.place),
                     textAlign = TextAlign.Center,
                     fontSize = 17.sp,
                 )
@@ -205,6 +205,7 @@ fun CardStorageItem() {
 
 @Composable
 fun SearchEditField(viewModel: StockViewModel) {
+
     val userInputCode by viewModel.userInputCode.collectAsState()
     val focusManager = LocalFocusManager.current
     Column(
@@ -227,7 +228,13 @@ fun SearchEditField(viewModel: StockViewModel) {
                 viewModel.updateUserInputCode(it)
             },
             label = {
-                Text(text = "Введите артикл/код/название")
+                Text(
+                    text =
+                            stringResource(id = R.string.enter) + " " +
+                            stringResource(id = R.string.vendor_code) + "/" +
+                            stringResource(id = R.string.code) + "/" +
+                            stringResource(id = R.string.name_item)
+                )
             },
             trailingIcon = {
                 Icon(
@@ -236,7 +243,7 @@ fun SearchEditField(viewModel: StockViewModel) {
                         focusManager.clearFocus()
                     },
                     imageVector = Icons.Default.Search,
-                    contentDescription = ""
+                    contentDescription = "Search Item"
                 )
             }
         )

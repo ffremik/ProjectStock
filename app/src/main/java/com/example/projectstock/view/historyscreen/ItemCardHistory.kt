@@ -12,10 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.projectstock.R
 import com.example.projectstock.database.HistoryItem
 import com.example.projectstock.database.StorageItem
 
@@ -56,17 +58,17 @@ fun ItemCardHistory(historyItem: HistoryItem) {
             ) {
                 if (historyItem.itemsQuantity > 0){
                     Text(
-                        text = "Поступило: ${historyItem.itemsQuantity}",
+                        text = stringResource(id = R.string.received) + " " + historyItem.itemsQuantity,
                         fontSize = 16.sp
                     )
                 } else {
                     Text(
-                        text = "Списано: ${historyItem.itemsQuantity}",
+                        text = stringResource(id = R.string.write_off) + " " + historyItem.itemsQuantity,
                         fontSize = 16.sp
                     )
                 }
                 Text(
-                    text = "Остаток: ${historyItem.itemRemainderQuantity}",
+                    text = stringResource(id = R.string.remainder) + " " + historyItem.itemRemainderQuantity,
                     fontSize = 16.sp,
                 )
             }

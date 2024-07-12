@@ -28,4 +28,10 @@ interface DaoStock {
 
     @Query("SELECT * FROM historyitem")
     fun historyList(): Flow<List<HistoryItem>>
+
+    @Query("DELETE FROM historyitem WHERE substr(date, 4) =:date")
+    suspend fun deleteHistory(date: String)
+
+    @Query("DELETE FROM HistoryItem")
+    suspend fun deleteHistory()
 }

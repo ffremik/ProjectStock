@@ -13,19 +13,19 @@ import androidx.room.RoomDatabase
 abstract class StockBase(): RoomDatabase(){
     abstract fun daoBase(): DaoStock
 
-    companion object{
-        @Volatile
-        var Instance: StockBase? = null
-
-        fun createStockBase(context: Context): StockBase{
-            return Instance ?: synchronized(this ){
-                Room.databaseBuilder(
-                    context,
-                    StockBase::class.java,
-                    "stockBase"
-                ).build().also { Instance = it }
-            }
-        }
-    }
+//    companion object{
+//        @Volatile
+//        var Instance: StockBase? = null
+//
+////        fun createStockBase(context: Context): StockBase{
+////            return Instance ?: synchronized(this ){
+////                Room.databaseBuilder(
+////                    context,
+////                    StockBase::class.java,
+////                    "stockBase"
+////                ).build().also { Instance = it }
+////            }
+////        }
+//  }
 
 }

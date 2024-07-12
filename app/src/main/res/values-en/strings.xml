@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ProjectStock</string>
+    <string name="vendor_code">Vendor Code</string>
+    <string name="code">Code</string>
+    <string name="name_item">Name</string>
+    <string name="quantity">Quantity</string>
+    <string name="place">Place</string>
+    <string name="enter">Enter</string>
+    <string name="save_changes">Save changes</string>
+    <string name="delete_item">Delete item</string>
+    <string name="add_item">Add item</string>
+    <string name="delete_message">Are you sure you want to delete the item?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="operation">Operation</string>
+    <string name="received">Received</string>
+    <string name="write_off">Write off</string>
+    <string name="remainder">Remaider</string>
+    <string name="date">Date</string>
+</resources>
