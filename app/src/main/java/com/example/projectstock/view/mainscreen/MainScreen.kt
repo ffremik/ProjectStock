@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -17,6 +19,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,14 +28,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.projectstock.StockApplication
 import com.example.projectstock.view.historyscreen.HistoryScreen
 import com.example.projectstock.view.stockscreen.StockScreen
 import com.example.projectstock.view.stockscreen.viewmodel.StockViewModel
@@ -45,29 +51,31 @@ fun PreviewMainScreen() {
 
 @Composable
 fun MainScreen(
-    viewModel: StockViewModel = androidx.lifecycle.viewmodel.compose.viewModel(factory = StockViewModel.factory)
+    viewModel: StockViewModel = viewModel(factory = StockViewModel.factory)
 ) {
-    val navController = rememberNavController()
+    val nameRoute = remember { mutableStateOf("") }
+
     Scaffold(
         floatingActionButton = {
-                IconButton(
-                    onClick = {
-                        viewModel.updateIsOpenAdd()
-                        viewModel.items = null
-                    }
-                ) {
-                    Icon(
-                        tint = Color.Green,
-                        modifier = Modifier
-                            .background(Color.White)
-                            .size(45.dp),
-                        imageVector = Icons.Default.Add,
-                        contentDescription = "add"
+            when (nameRoute.value) {
+                "stock" -> {
+                    IconItemScreen(
+                        onClick = {
+                            viewModel.updateIsOpenAdd()
+                        },
+                        icon = Icons.Default.Add,
+                        content = "Add item"
                     )
                 }
+
+                "history" -> {
+
+                }
+            }
+
         }
     ) {
-        NavigationHost(viewModel, modifier = Modifier.padding(it), navController)
+        NavigationHost(viewModel, modifier = Modifier.padding(it), nameRoute)
     }
 }
 
@@ -75,22 +83,47 @@ fun MainScreen(
 fun NavigationHost(
     viewModel: StockViewModel,
     modifier: Modifier = Modifier,
-    navController: NavController
+    routeName: MutableState<String>
 ) {
+    val navController = rememberNavController()
     NavHost(
         modifier = modifier,
-        navController = navController as NavHostController,
+        navController = navController,
         startDestination = "stock"
     ) {
         composable(
             route = "stock"
         ) {
+            routeName.value = "stock"
             StockScreen(viewModel, navController = navController)
         }
         composable(
             route = "history"
         ) {
-            HistoryScreen(navController, viewModel)
+            routeName.value = "history"
+            HistoryScreen(navController)
         }
+    }
+}
+
+@Composable
+fun IconItemScreen(
+    onClick: () -> Unit,
+    icon: ImageVector,
+    content: String = ""
+) {
+    IconButton(
+        onClick = {
+            onClick()
+        }
+    ) {
+        Icon(
+            tint = Color.Green,
+            modifier = Modifier
+                .background(Color.White)
+                .size(45.dp),
+            imageVector = icon,
+            contentDescription = content
+        )
     }
 }

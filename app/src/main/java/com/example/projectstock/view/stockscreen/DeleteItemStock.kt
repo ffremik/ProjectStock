@@ -9,7 +9,9 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.projectstock.R
 import com.example.projectstock.view.stockscreen.viewmodel.StockViewModel
 
 @Composable
@@ -29,7 +31,7 @@ fun ScreenDeleteItem(viewModel: StockViewModel) {
             Column(
 
             ) {
-                Text(text = "Вы точно хотите удалить элемент ?")
+                Text(text = stringResource(id = R.string.delete_message))
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -41,7 +43,7 @@ fun ScreenDeleteItem(viewModel: StockViewModel) {
                             viewModel.delete()
                         }
                     ) {
-                        Text(text = "Да")
+                        Text(text = stringResource(id = R.string.yes))
                     }
                     OutlinedButton(
                         modifier = Modifier.weight(0.5f),
@@ -49,7 +51,7 @@ fun ScreenDeleteItem(viewModel: StockViewModel) {
                             viewModel.updateIsOpenDelete()
                         }
                     ) {
-                        Text(text = "Нет")
+                        Text(text = stringResource(id = R.string.no))
                     }
                 }
             }

@@ -22,7 +22,7 @@ class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
         val factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[APPLICATION_KEY]) as StockApplication
-                StockViewModel(application.stockBase.daoBase())
+                StockViewModel(application.getDaoStock())
             }
         }
     }
@@ -74,7 +74,6 @@ class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
 
 
     fun updateIsOpenAdd() {
-        resetInput()
         isOpenAdd.value = !isOpenAdd.value
     }
 
@@ -150,6 +149,7 @@ class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
         addItemQuantity.value = ""
         addItemVendorCode.value = ""
         addItemPlace.value = ""
+        items = null
     }
 
     fun isAdd() {

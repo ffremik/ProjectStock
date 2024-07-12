@@ -18,8 +18,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.projectstock.R
 import com.example.projectstock.view.stockscreen.viewmodel.StockViewModel
 
 @Preview(showBackground = true)
@@ -52,30 +54,18 @@ fun ScreenAddItem(viewModel: StockViewModel) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ItemTextField(
-                    "Артикл",
-                    itemVendorCode,
-                    isErrorInputVendorCode
-                ) { it -> viewModel.updateVendorCode(it) }
-                ItemTextField("Код", itemCode, isErrorInputCode) { it -> viewModel.updateCode(it) }
-                ItemTextField("Имя", itemName, isErrorInputName) { it -> viewModel.updateName(it) }
-                ItemTextField(
-                    "Кол-во",
-                    itemQuantity,
-                    isErrorInputQuantity
-                ) { it -> viewModel.updateQuantity(it) }
-                ItemTextField(
-                    name = "Место",
-                    input = itemPlace,
-                    isError = isErrorInputPlace
-                ) { viewModel.updatePlace(it) }
+                ItemTextField(stringResource(id = R.string.vendor_code), itemVendorCode, isErrorInputVendorCode) { it -> viewModel.updateVendorCode(it) }
+                ItemTextField(stringResource(id = R.string.code), itemCode, isErrorInputCode) { it -> viewModel.updateCode(it) }
+                ItemTextField(stringResource(id = R.string.name_item), itemName, isErrorInputName) { it -> viewModel.updateName(it) }
+                ItemTextField(stringResource(id = R.string.quantity), itemQuantity, isErrorInputQuantity) { it -> viewModel.updateQuantity(it) }
+                ItemTextField(stringResource(id = R.string.place), itemPlace, isErrorInputPlace) { viewModel.updatePlace(it) }
 
                 if (viewModel.items !== null) {
                     OutlinedButton(
                         onClick = { viewModel.isAdd() }
                     ) {
                         Text(
-                            text = "Сохранить изменения"
+                            text = stringResource(id = R.string.save_changes)
                         )
                     }
 
@@ -85,7 +75,7 @@ fun ScreenAddItem(viewModel: StockViewModel) {
                         }
                     ) {
                         Text(
-                            text = "Удалить элемент"
+                            text = stringResource(id = R.string.delete_item)
                         )
                     }
                 } else {
@@ -93,7 +83,7 @@ fun ScreenAddItem(viewModel: StockViewModel) {
                         onClick = { viewModel.isAdd() }
                     ) {
                         Text(
-                            text = "Добавить Элемент"
+                            text = stringResource(id = R.string.add_item)
                         )
                     }
                 }
