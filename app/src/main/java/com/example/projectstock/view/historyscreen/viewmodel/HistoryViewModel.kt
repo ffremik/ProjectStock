@@ -1,6 +1,7 @@
 package com.example.projectstock.view.historyscreen.viewmodel
 
 import androidx.compose.ui.res.stringArrayResource
+import androidx.datastore.core.DataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -9,20 +10,36 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.projectstock.R
 import com.example.projectstock.StockApplication
 import com.example.projectstock.database.DaoStock
+import com.example.projectstock.view.data.UserPreferencesRepository
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class HistoryViewModel(private val daoStock: DaoStock) : ViewModel() {
+class HistoryViewModel(
+    private val daoStock: DaoStock,
+    private val userPreferencesRepository: UserPreferencesRepository
+) : ViewModel() {
     companion object {
         val factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application =
                     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]) as StockApplication
-                HistoryViewModel(application.getDaoStock())
+                HistoryViewModel(application.getDaoStock(), application.userPreferencesRepository)
             }
+        }
+    }
+
+    val isAutoDelete = userPreferencesRepository.isAutoDelete.stateIn(
+        viewModelScope, SharingStarted.WhileSubscribed(5000), false
+    )
+
+    fun updateIsAutoDelete(){
+        viewModelScope.launch {
+            userPreferencesRepository.saveIsAutoDelete(!isAutoDelete.value)
         }
     }
 
