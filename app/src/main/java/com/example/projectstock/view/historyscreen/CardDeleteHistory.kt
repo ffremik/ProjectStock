@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
@@ -52,6 +53,7 @@ fun DeleteHistory(historyViewModel: HistoryViewModel) {
     val isOpenDialogDelete by historyViewModel.isOpenDialogDelete.collectAsState()
     val isOpenSelectPeriod by historyViewModel.isOpenSelectPeriod.collectAsState()
     val isErrorPeriod by historyViewModel.isErrorPeriod.collectAsState()
+    val isAutoDelete by historyViewModel.isAutoDelete.collectAsState()
 
     val context = LocalContext.current
     val items = remember { context.resources.getStringArray(R.array.my_array) }
@@ -76,6 +78,21 @@ fun DeleteHistory(historyViewModel: HistoryViewModel) {
                         text = "Удаление истории",
                         fontSize = 26.sp
                     )
+                    Row(
+                        modifier = Modifier.padding(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Удаление раз 3 мес?",
+                            fontSize = 21.sp
+                        )
+                        Checkbox(
+                            modifier = Modifier.size(60.dp),
+                            checked = isAutoDelete,
+                            onCheckedChange = {historyViewModel.updateIsAutoDelete()}
+                        )
+                    }
+
                     Row(
                         modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
                     ) {
