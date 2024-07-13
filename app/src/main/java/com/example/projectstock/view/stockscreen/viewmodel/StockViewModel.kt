@@ -74,6 +74,9 @@ class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
 
     fun updateIsOpenAdd() {
         isOpenAdd.value = !isOpenAdd.value
+        if (!isOpenAdd.value){
+            resetInput()
+        }
     }
 
     fun updateIsOpenDelete() {
@@ -127,7 +130,7 @@ class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
         val previousQuantity = items?.quantity ?: 0
 
         daoStock.addItem(item)
-        items = null
+
 
         if (item.quantity - previousQuantity != 0){
             daoStock.addHistoryItem(
@@ -140,7 +143,7 @@ class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
             )
             search()
         }
-
+        items = null
 
     }
 

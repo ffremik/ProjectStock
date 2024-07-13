@@ -48,17 +48,40 @@ fun ScreenAddItem(viewModel: StockViewModel) {
     AlertDialog(
         //viewModel.updateIsOpenAdd()
         modifier = Modifier,
-        onDismissRequest = { viewModel.updateIsOpenAdd() },
+        onDismissRequest = {
+            viewModel.updateIsOpenAdd()
+
+        },
         confirmButton = { /*TODO*/ },
         text = {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ItemTextField(stringResource(id = R.string.vendor_code), itemVendorCode, isErrorInputVendorCode) { it -> viewModel.updateVendorCode(it) }
-                ItemTextField(stringResource(id = R.string.code), itemCode, isErrorInputCode) { it -> viewModel.updateCode(it) }
-                ItemTextField(stringResource(id = R.string.name_item), itemName, isErrorInputName) { it -> viewModel.updateName(it) }
-                ItemTextField(stringResource(id = R.string.quantity), itemQuantity, isErrorInputQuantity) { it -> viewModel.updateQuantity(it) }
-                ItemTextField(stringResource(id = R.string.place), itemPlace, isErrorInputPlace) { viewModel.updatePlace(it) }
+                ItemTextField(
+                    stringResource(id = R.string.vendor_code),
+                    itemVendorCode,
+                    isErrorInputVendorCode
+                ) { it -> viewModel.updateVendorCode(it) }
+                ItemTextField(
+                    stringResource(id = R.string.code),
+                    itemCode,
+                    isErrorInputCode
+                ) { it -> viewModel.updateCode(it) }
+                ItemTextField(
+                    stringResource(id = R.string.name_item),
+                    itemName,
+                    isErrorInputName
+                ) { it -> viewModel.updateName(it) }
+                ItemTextField(
+                    stringResource(id = R.string.quantity),
+                    itemQuantity,
+                    isErrorInputQuantity
+                ) { it -> viewModel.updateQuantity(it) }
+                ItemTextField(
+                    stringResource(id = R.string.place),
+                    itemPlace,
+                    isErrorInputPlace
+                ) { viewModel.updatePlace(it) }
 
                 if (viewModel.items !== null) {
                     OutlinedButton(
