@@ -218,7 +218,7 @@ fun SearchEditField(viewModel: StockViewModel) {
                 imeAction = ImeAction.Search,
             ),
             keyboardActions = KeyboardActions {
-                viewModel.search(userInputCode)
+                viewModel.search()
                 focusManager.clearFocus()
             },
             modifier = Modifier
@@ -239,7 +239,7 @@ fun SearchEditField(viewModel: StockViewModel) {
             trailingIcon = {
                 Icon(
                     modifier = Modifier.clickable {
-                        viewModel.search(userInputCode)
+                        viewModel.search()
                         focusManager.clearFocus()
                     },
                     imageVector = Icons.Default.Search,

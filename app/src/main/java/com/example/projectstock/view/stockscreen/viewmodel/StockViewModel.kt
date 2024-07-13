@@ -53,15 +53,14 @@ class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
 
     var items: StorageItem? = null
     val listStorageItems = daoStock.itemList()
-    val listHistoryItems = daoStock.historyList()
 
     var isSearch = MutableStateFlow(userInputCode.value.isEmpty())
     val searchListStorageItem = MutableStateFlow(emptyList<StorageItem>())
 
-    fun search(search: String) = viewModelScope.launch {
+    fun search() = viewModelScope.launch {
         searchListStorageItem.value = emptyList()
         isSearch.value = userInputCode.value.isEmpty()
-        searchListStorageItem.value = daoStock.searchItem(search)
+        searchListStorageItem.value = daoStock.searchItem(userInputCode.value)
     }
 
     fun delete() = viewModelScope.launch {
@@ -139,7 +138,9 @@ class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
                     date = getCurrentDate()
                 )
             )
+            search()
         }
+
 
     }
 
