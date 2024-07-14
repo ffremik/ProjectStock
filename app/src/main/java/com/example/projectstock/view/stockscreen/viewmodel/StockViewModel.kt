@@ -154,6 +154,11 @@ class StockViewModel(private val daoStock: DaoStock) : ViewModel() {
         addItemVendorCode.value = ""
         addItemPlace.value = ""
         items = null
+        isErrorInputName.value = false
+        isErrorInputVendorCode.value = false
+        isErrorInputCode.value = false
+        isErrorInputQuantity.value = false
+        isErrorInputPlace.value = false
     }
 
     fun isAdd() {
