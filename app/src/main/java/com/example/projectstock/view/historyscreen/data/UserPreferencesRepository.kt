@@ -1,4 +1,4 @@
-package com.example.projectstock.view.data
+package com.example.projectstock.view.historyscreen.data
 
 import android.util.Log
 import androidx.datastore.core.DataStore

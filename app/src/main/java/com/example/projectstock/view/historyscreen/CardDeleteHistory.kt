@@ -1,5 +1,7 @@
 package com.example.projectstock.view.historyscreen
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -181,17 +183,12 @@ fun MenuDeleteHistory(period: String, onClick: () -> Unit) {
 
 @Composable
 fun ItemMenu(text: String, onClick: (String) -> Unit) {
-
-    Card(
-        modifier = Modifier.clickable {
-            onClick(text)
-        }
-    ) {
         Text(
-            modifier = Modifier.sizeIn(minWidth = 160.dp),
+            modifier = Modifier
+                .sizeIn(minWidth = 160.dp)
+                .border(2.dp, Color.Black)
+                .clickable { onClick(text) },
             text = text,
             fontSize = 18.sp,
         )
-    }
-
 }

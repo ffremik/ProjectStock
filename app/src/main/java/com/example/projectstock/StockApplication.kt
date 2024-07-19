@@ -13,7 +13,7 @@ import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import com.example.projectstock.database.DaoStock
 import com.example.projectstock.database.StockBase
-import com.example.projectstock.view.data.UserPreferencesRepository
+import com.example.projectstock.view.historyscreen.data.UserPreferencesRepository
 import com.example.projectstock.view.historyscreen.workmanager.HistoryWorkerManager
 import java.util.concurrent.TimeUnit
 
@@ -32,7 +32,7 @@ class StockApplication: Application(){
     fun getDaoStock(): DaoStock{
         return stockBase.daoBase()
     }
-    fun getUserPreferencesRepository(): UserPreferencesRepository{
+    fun getUserPreferencesRepository(): UserPreferencesRepository {
         return userPreferencesRepository
     }
 

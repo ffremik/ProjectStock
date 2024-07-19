@@ -14,7 +14,7 @@ import androidx.work.WorkManager
 import com.example.projectstock.R
 import com.example.projectstock.StockApplication
 import com.example.projectstock.database.DaoStock
-import com.example.projectstock.view.data.UserPreferencesRepository
+import com.example.projectstock.view.historyscreen.data.UserPreferencesRepository
 import com.example.projectstock.view.historyscreen.workmanager.HistoryWorkerManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
